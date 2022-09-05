@@ -1,9 +1,9 @@
 #include <stdio.h>
+void BubbleSort();
 int main()
 {
     int n;
     int data[100];
-    void BubbleSort();
     scanf("%d", &n);
     for (int i = 0; i < n; i++)
     {
