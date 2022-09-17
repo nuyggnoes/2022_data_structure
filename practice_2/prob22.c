@@ -1,7 +1,10 @@
 #include <stdio.h>
 #include <string.h>
+#include <limits.h>
+#define MAX_LONG 2, 147, 483, 647
 int main()
 {
+    int i_max = INT_MAX;
     int i = 0;
     char d[] = "Block D Masks";
     char *data[3];

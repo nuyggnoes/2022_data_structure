@@ -26,15 +26,6 @@ int main()
             break;
         }
     }
-    // for (int k = 97; k < 123; k++)
-    // {
-    //     printf("%d ", com1[k]);
-    // }
-    // printf("\n");
-    // for (int k = 97; k < 123; k++)
-    // {
-    //     printf("%d ", com2[k]);
-    // }
     if (x > 0)
     {
         printf("no");
