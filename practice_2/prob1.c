@@ -1,3 +1,4 @@
+// 테스트 데이터를 모두 통과했습니다.
 #include <stdio.h>
 #include <string.h>
 // a-z : 97-122
