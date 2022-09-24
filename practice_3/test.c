@@ -1,55 +1,61 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <ctype.h>
-
-char *a[100000]; //단어 저장
-char *b[100000]; //뜻 저장
-int main(void)
+#define MAX 10000
+int main()
 {
-    char word[100000];
-    char *ptr;
-    int end = 0, i = 0;
-    char temp[100];
-
-    FILE *fp = fopen("shuffled_dick.txt", "r");
+    FILE *fp = fopen("shuffled_dict.txt", "r");
+    FILE *fw = fopen("sorted_dict.txt", "w");
+    char *word[MAX];
+    char *word_exp[MAX];
+    int idx, n = 0, i;
     if (fp == NULL)
     {
         return 0;
     }
     while (1)
     {
-        char *pstr = fgets(word, 100000, fp); // word[n]에 한 줄 씩 저장
+        char voca[100] = "";
+        char exp[100] = "";
+        char input[1000];
+        char *pstr = fgets(input, 1000, fp);
         if (pstr == NULL)
         {
             break;
         }
-        ptr = strtok(word, "    "); // 1줄 씩 \t가 나올 때 까지 짜름
-        while (ptr != NULL)
+        idx = 0;
+        while (input[idx] != '\t')
         {
-            printf("%s\n", ptr);
-            strtok(NULL, "");
+            voca[idx] = input[idx];
+            idx++;
         }
+        idx++;
+        // word[n] = strdup(voca);
+        i = 0;
+        while (idx != strlen(input))
+        {
+
+            exp[i] = input[idx];
+            idx++;
+            i++;
+        }
+        // word_exp[n] = strdup(exp);
+        int k = n - 1;
+        while (k >= 0 && strcmp(voca, word[k]) < 0)
+        {
+            word[k + 1] = word[k];
+            word_exp[k + 1] = word_exp[k];
+            k--;
+        }
+        word[k + 1] = strdup(voca);
+        word_exp[k + 1] = strdup(exp);
+        n++;
     }
-
-    // for (int i = 0; i < end; i++)
-    // {
-    //     for (int j = i + 1; j < end; j++)
-    //     {
-    //         if (strcmp(a[i], a[j]) > 0)
-    //         {
-    //             strcpy(temp, a[i]);
-    //             strcpy(a[i], a[j]);
-    //             strcpy(a[j], temp);
-    //             strcpy(temp, b[i]);
-    //             strcpy(b[i], b[j]);
-    //             strcpy(b[j], temp);
-    //         }
-    //     }
-    // }
-
-    // for (int i = 0; i < end; i++)
-    // {
-    //     printf("%s\t%s", a[i], b[i]);
-    // }
+    fclose(fp);
+    for (int i = 0; i < n; i++)
+    {
+        fprintf(fw, "%s    %s", word[i], word_exp[i]);
+    }
+    fclose(fw);
+    return 0;
 }

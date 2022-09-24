@@ -1,3 +1,4 @@
+// 테스트 데이터를 모두 통과했습니다.
 #include <stdio.h>
 void BubbleSort();
 int main()

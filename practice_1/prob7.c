@@ -1,4 +1,4 @@
-// 테스트 케이스 전부 통과했습니다.
+// 테스트 데이터를 모두 통과했습니다.
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
