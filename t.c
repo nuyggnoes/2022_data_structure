@@ -4,7 +4,7 @@ int main()
 {
     char input[10000];
     // scanf("%s", input);
-    gets(input);
+    fgets(input, 10000, stdin);
     printf("$ %s : %lu", input, strlen(input));
     return 0;
 }

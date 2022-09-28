@@ -7,7 +7,6 @@ int main()
     scanf("%d", &n);
     while (cnt != n)
     {
-
         scanf("%d", &data[idx]);
         for (int i = 0; i < idx; i++)
         {
