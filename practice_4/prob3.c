@@ -1,29 +1,30 @@
+// 테스트 데이터를 모두 통과했습니다.
 #include <stdio.h>
 #include <string.h>
 #define LENGTH 1000
 char *t[100][100];
-char *space_delete(char *arr);
+char *space_delete(char *arr); //공백 제거 함수
 int main()
 {
     FILE *fp = fopen("table.txt", "r");
     FILE *fw = fopen("output.txt", "w");
     int m, n;
-    char str[LENGTH];
+    char buf[LENGTH];
     if (fp == NULL)
     {
         return 0;
     }
     fscanf(fp, "%d %d ", &m, &n);
     int i = 0, j = 0;
-    while (fgets(str, LENGTH, fp) != NULL)
+    while (fgets(buf, LENGTH, fp) != NULL)
     {
-        if (str[strlen(str) - 1] == '\n')
+        if (buf[strlen(buf) - 1] == '\n')
         {
-            str[strlen(str) - 1] = '\0';
+            buf[strlen(buf) - 1] = '\0';
         }
-        if (strlen(str) <= 0)
+        if (strlen(buf) <= 0)
             continue;
-        char *ptr = strtok(str, "&");
+        char *ptr = strtok(buf, "&");
         while (ptr != NULL)
         {
             ptr = space_delete(ptr);
@@ -67,7 +68,7 @@ int main()
     fclose(fw);
     return 0;
 }
-char *space_delete(char *arr)
+char *space_delete(char *arr) //공백 제거 함수
 {
     while (*arr == ' ')
         arr++;
