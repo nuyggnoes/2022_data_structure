@@ -8,7 +8,6 @@ typedef struct node
     struct node *next;
 } Node;
 Node *head = NULL;
-
 void addFirst(char *word)
 {
     Node *tmp = (Node *)malloc(sizeof(Node));
@@ -60,6 +59,11 @@ int dup(char *word)
     }
     return 1;
 }
+Node *delete (Node *prev, Node *curr)
+{
+    prev->next = curr->next;
+    return prev->next;
+}
 int total = 0;
 int main()
 {
@@ -82,14 +86,23 @@ int main()
         {
             add_to_ordered_list(w);
         }
-        total++;
     }
     fclose(fp);
-    Node *curr = head->next;
-    while (curr != NULL)
+    Node *p = head->next;
+    Node *q = NULL;
+    while (p != NULL)
     {
-        printf("%s: %d\n", curr->data, curr->cnt + 1);
-        curr = curr->next;
+        if (p->cnt + 1 > 10)
+        {
+            printf("%s: %d\n", p->data, p->cnt + 1);
+            total++;
+            q = p;
+            p = p->next;
+        }
+        else
+        {
+            p = delete (q, p);
+        }
     }
     printf("%d", total);
     return 0;
