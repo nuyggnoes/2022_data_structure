@@ -108,24 +108,34 @@ int main()
         }
     }
     Node *cur = head;
-    Node *cycle = cur->next;
+    Node *cy = cur->next;
     int count = total;
     while (count > 0)
     {
-        while (cycle != NULL)
+        cur = head;
+        cy = cur->next;
+        while (cy != NULL)
         {
-            if (cur->cnt < cycle->cnt)
+            if (cur->cnt < cy->cnt)
             {
                 while (1)
                 {
-                    if (cur->cnt >= cycle->next->cnt)
+                    if (cur->cnt >= cy->next->cnt)
                     {
                         break;
                     }
-                    cycle = cycle->next;
+                    cy = cy->next;
                 }
+                head->next = cur->next;
+                cur->next = cy->next;
+                cy->next = cur;
+            }
+            else
+            {
+                cy = cy->next;
             }
         }
+        count--;
     }
 
     p = head->next;
