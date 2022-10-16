@@ -11,6 +11,7 @@ Node *head = NULL;
 void addFirst(char *word)
 {
     Node *tmp = (Node *)malloc(sizeof(Node));
+    tmp->cnt = 1;
     tmp->data = strdup(word);
     tmp->next = head->next;
     head->next = tmp;
@@ -22,6 +23,7 @@ int addAfter(Node *prev, char *word)
         return 0;
     }
     Node *tmp = (Node *)malloc(sizeof(Node));
+    tmp->cnt = 1;
     tmp->data = strdup(word);
     tmp->next = prev->next;
     prev->next = tmp;
@@ -92,9 +94,9 @@ int main()
     Node *q = NULL;
     while (p != NULL)
     {
-        if (p->cnt + 1 > 10)
+        if (p->cnt > 10)
         {
-            printf("%s: %d\n", p->data, p->cnt + 1);
+            printf("%s: %d\n", p->data, p->cnt);
             total++;
             q = p;
             p = p->next;

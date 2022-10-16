@@ -1,3 +1,4 @@
+#pragma warning(diable : 4996)
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -12,6 +13,7 @@ Node *head = NULL;
 void addFirst(char *word)
 {
     Node *tmp = (Node *)malloc(sizeof(Node));
+    tmp->cnt = 1;
     tmp->data = strdup(word);
     tmp->next = head->next;
     head->next = tmp;
@@ -23,6 +25,7 @@ int addAfter(Node *prev, char *word)
         return 0;
     }
     Node *tmp = (Node *)malloc(sizeof(Node));
+    tmp->cnt = 1;
     tmp->data = strdup(word);
     tmp->next = prev->next;
     prev->next = tmp;
@@ -88,7 +91,7 @@ int main()
     Node *curr = head->next;
     while (curr != NULL)
     {
-        printf("%s: %d\n", curr->data, curr->cnt + 1);
+        printf("%s: %d\n", curr->data, curr->cnt);
         curr = curr->next;
     }
     printf("%d", total);
