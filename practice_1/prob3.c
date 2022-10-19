@@ -24,7 +24,6 @@ int main()
             }
             data[i + 1] = n;
             cnt++;
-
             for (int i = 0; i < cnt; i++)
             {
                 printf("%d ", data[i]);

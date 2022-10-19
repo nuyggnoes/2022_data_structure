@@ -7,17 +7,17 @@
 int main()
 {
     FILE *fp = fopen("harry.txt", "r");
-    char *word;
+    char word[100];
     char *data[100000];
     char tmp[MAX];
     int a = 0;
     while (!feof(fp))
     {
-        word = (char *)malloc(sizeof(char) * MAX);
+        // word = (char *)malloc(sizeof(char) * MAX);
         fscanf(fp, "%s", word);
         if (strlen(word) >= 6)
         {
-            data[a] = word;
+            data[a] = strdup(word);
             a++;
         }
     }

@@ -11,7 +11,7 @@ void rowmin(int arr[][100], int len);
 void slice(int arr[][100], int len, int x, int p, int y, int q);
 int main()
 {
-    FILE *fp = fopen("data.mat.txt", "r");
+    FILE *fp = fopen("data.mat", "r");
     int data[LENGTH][LENGTH];
     char ord[15];
     fscanf(fp, "%d", &n);

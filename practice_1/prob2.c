@@ -14,7 +14,7 @@ int main()
     printf("%d %d", data[0], data[1]);
     return 0;
 }
-void BubbleSort(int list[], int x)
+void BubbleSort(int list[], int x) // 버블 정렬
 {
     int temp;
 

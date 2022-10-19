@@ -4,7 +4,7 @@
 #define LEN 100
 int main()
 {
-    FILE *fp = fopen("sample.txt", "r");
+    FILE *fp = fopen("sample.html", "r");
     FILE *fw = fopen("correctsample.txt", "w");
     if (fp == NULL)
     {
