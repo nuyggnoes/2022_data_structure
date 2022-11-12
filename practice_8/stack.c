@@ -1,32 +1,81 @@
-#define MAX_CAPACITY 100
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#include "stack.h"
 
-char stack[MAX_CAPACITY];
-int top = -1;
+struct node
+{
+    Item data;
+    struct node *next;
+};
+struct stack_type
+{
+    struct node *top;
+};
+static void terminate(const char *message)
+{
+    printf("%s\n", message);
+    exit(EXIT_FAILURE);
+}
+Stack create()
+{
+    Stack s = malloc(sizeof(struct stack_type));
+    if (s == NULL)
+        terminate("Error in create: stack could not be created.");
+    s->top = NULL;
+    return s;
+}
+void destroy(Stack s)
+{
+    make_empty(s);
+    free(s);
+}
+void make_empty(Stack s)
+{
+    while (!is_empty(s))
+        pop(s);
+}
+bool is_empty(Stack s)
+{
+    return s->top == NULL;
+}
+void push(Stack s, Item i)
+{
+    struct node *new_node = malloc(sizeof(struct node));
+    if (new_node == NULL)
+        terminate("Error in push: stack is full.");
+    new_node->data = i;
+    new_node->next = s->top;
+    s->top = new_node;
+}
+Item pop(Stack s)
+{
+    struct node *old_top;
+    Item i;
 
-int is_empty()
-{
-    return top == -1;
+    if (is_empty(s))
+        terminate("Error in pop: stack is empty.");
+    old_top = s->top;
+    i = old_top->data;
+    s->top = old_top->next;
+    free(old_top);
+    return i;
 }
-void is_full()
+Item peek(Stack s)
 {
-    return top == MAX_CAPACITY - 1;
+    if (is_empty(s))
+        terminate("Error in peek: stack is empty.");
+    return s->top->data;
 }
-void push(char ch)
-{
-    if (is_full())
-        return;
-    top++;
-    stack[top] = ch;
-}
-char pop()
-{
-    if (is_empty())
-        return;
-    char tmp = stack[top];
-    top--;
-    return tmp;
-}
-char peek()
-{
-    return stack[top];
-}
+// void list(Stack s)
+// {
+//     struct node *st;
+//     Item i;
+//     st = s->top;
+//     while (st != NULL)
+//     {
+//         i = strdup(st->data);
+//         printf("%s\n", i);
+//         st = st->next;
+//     }
+// }

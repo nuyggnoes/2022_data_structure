@@ -11,33 +11,35 @@ struct node
 struct stack_type
 {
     struct node *top;
+    char *name;
 };
 static void terminate(const char *message)
 {
     printf("%s\n", message);
     exit(EXIT_FAILURE);
 }
-Stack create()
+Stack create(char *name)
 {
     Stack s = malloc(sizeof(struct stack_type));
+    s->name = strdup(name);
     if (s == NULL)
         terminate("Error in create: stack could not be created.");
     s->top = NULL;
     return s;
 }
-void destroy(Stack s)
+bool is_empty(Stack s)
 {
-    make_empty(s);
-    free(s);
+    return s->top == NULL;
 }
 void make_empty(Stack s)
 {
     while (!is_empty(s))
         pop(s);
 }
-bool is_empty(Stack s)
+void destroy(Stack s)
 {
-    return s->top == NULL;
+    make_empty(s);
+    free(s);
 }
 void push(Stack s, Item i)
 {
@@ -66,4 +68,16 @@ Item peek(Stack s)
     if (is_empty(s))
         terminate("Error in peek: stack is empty.");
     return s->top->data;
+}
+void list(Stack s)
+{
+    struct node *st;
+    Item i;
+    st = s->top;
+    while (st != NULL)
+    {
+        i = strdup(st->data);
+        printf("%s\n", i);
+        st = st->next;
+    }
 }

@@ -1,34 +1,15 @@
-#include <stdio.h>
-#include <stdlib.h>
-typedef struct node
-{
-    char *data;
-    struct node *next;
-} Node;
-Node *top = NULL;
+#ifndef STACK_H_
+#define STACK_H_
+#include <stdbool.h>
 
-void push(char *item)
-{
-    Node *p = (Node *)malloc(sizeof(Node));
-    p->data = item;
-    p->next = top;
-    top = p;
-}
-char *pop()
-{
-    if (is_empty())
-        return NULL;
-    char *result = top->data;
-    top = top->next;
-    return result;
-}
-char *peek()
-{
-    if (is_empty())
-        return NULL;
-    return top->data;
-}
-int is_empty()
-{
-    return top == NULL;
-}
+typedef int Item;
+typedef struct stack_type *Stack;
+Stack create();
+void destroy(Stack s);
+void make_empty(Stack s);
+bool is_empty(Stack s);
+void push(Stack s, Item i);
+Item pop(Stack s);
+Item peek(Stack s);
+
+#endif

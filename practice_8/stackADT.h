@@ -1,9 +1,9 @@
-#ifndef STACKADT_H
-#define STACKADT_H
+#ifndef STACKADT_H_
+#define STACKADT_H_
 #include <stdbool.h>
-typedef int Item;
-typedef struct stack_type *Stack;
 
+typedef char *Item;
+typedef struct stack_type *Stack;
 Stack create();
 void destroy(Stack s);
 void make_empty(Stack s);
