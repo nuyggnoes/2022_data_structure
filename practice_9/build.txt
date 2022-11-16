@@ -1,0 +1,38 @@
+#컴퓨터공학부 소프트웨어인공지능전공 201912327 임성균 
+target=$@
+
+function compiler {
+  cfiles=$(find . -name '*.c')
+  cfiles=$(echo ${cfiles//'./'/})
+  for arg in $cfiles
+  do
+    object=$(echo ${arg//'.c'/'.o'})
+    if [ -z $(find . -name $object -exec find {} -newer $arg \;) ]; then
+      if gcc -c $arg; then
+        gcc -c $arg
+        echo "gcc -c $arg"
+      else
+        return 1
+      fi
+    fi
+  done
+  object=$(find . -name '*.o')
+  object=$(echo ${object//'./'/})
+  if gcc -o $target $object -lm; then
+    gcc -o $target $object -lm
+    echo "gcc -o $target $object -lm"
+  else
+    return 1;
+  fi
+}
+
+if [ -z "$target" ]; then 
+  echo "$0 <target name>"
+  exit 1;
+
+elif compiler; then
+  echo "Build success"
+else
+  echo "Compile error"
+  exit 1
+fi
