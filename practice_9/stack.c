@@ -1,8 +1,9 @@
+// 테스트 데이터를 모두 통과했습니다.
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
 #include "stack.h"
-
+#include "pos.h"
 struct node
 {
     Item data;
@@ -34,11 +35,6 @@ void make_empty(Stack s)
     while (!is_empty(s))
         pop(s);
 }
-void destroy(Stack s)
-{
-    make_empty(s);
-    free(s);
-}
 void push(Stack s, Item i)
 {
     struct node *new_node = malloc(sizeof(struct node));
@@ -60,22 +56,4 @@ Item pop(Stack s)
     s->top = old_top->next;
     free(old_top);
     return i;
-}
-Item peek(Stack s)
-{
-    if (is_empty(s))
-        terminate("Error in peek: stack is empty.");
-    return s->top->data;
-}
-void list(Stack s)
-{
-    struct node *st;
-    Item i;
-    st = s->top;
-    while (st != NULL)
-    {
-        i = st->data;
-        printf("%d\n", i);
-        st = st->next;
-    }
 }

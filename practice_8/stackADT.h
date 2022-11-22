@@ -11,5 +11,6 @@ bool is_empty(Stack s);
 void push(Stack s, Item i);
 Item pop(Stack s);
 Item peek(Stack s);
+void list(Stack s);
 
 #endif

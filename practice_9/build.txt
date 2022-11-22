@@ -1,16 +1,16 @@
 #컴퓨터공학부 소프트웨어인공지능전공 201912327 임성균 
-target=$@
+arg=$@
 
 function compiler {
   cfiles=$(find . -name '*.c')
   cfiles=$(echo ${cfiles//'./'/})
-  for arg in $cfiles
+  for c in $cfiles
   do
-    object=$(echo ${arg//'.c'/'.o'})
-    if [ -z $(find . -name $object -exec find {} -newer $arg \;) ]; then
-      if gcc -c $arg; then
-        gcc -c $arg
-        echo "gcc -c $arg"
+    object=$(echo ${c//'.c'/'.o'})
+    if [ -z $(find . -name $object -exec find {} -newer $c \;) ]; then
+      if gcc -c $c; then
+        gcc -c $c
+        echo "gcc -c $c"
       else
         return 1
       fi
@@ -18,18 +18,17 @@ function compiler {
   done
   object=$(find . -name '*.o')
   object=$(echo ${object//'./'/})
-  if gcc -o $target $object -lm; then
-    gcc -o $target $object -lm
-    echo "gcc -o $target $object -lm"
+  if gcc -o $arg $object -lm; then
+    gcc -o $arg $object -lm
+    echo "gcc -o $arg $object -lm"
   else
     return 1;
   fi
 }
 
-if [ -z "$target" ]; then 
-  echo "$0 <target name>"
+if [ -z "$arg" ]; then 
+  echo "$0 <arg name>"
   exit 1;
-
 elif compiler; then
   echo "Build success"
 else

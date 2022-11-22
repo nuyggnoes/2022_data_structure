@@ -1,7 +1,7 @@
-// 테스트 데이터를 모두 통과했습니다.
-#include <stdio.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include "stack.h"
+#define MAX 1000000
 struct node
 {
     Item data;
@@ -77,47 +77,67 @@ void list(Stack s)
         st = st->next;
     }
 }
-int count(Stack s, int n);
+
 int main()
 {
-    int T;
     FILE *fp = fopen("input.txt", "r");
+    int T, N;
     fscanf(fp, "%d", &T);
-
-    for (int t = 0; t < T; t++)
+    Stack a;
+    a = create();
+    while (T > 0)
     {
-        int N;
-        int n;
-        long long answer = 0;
-        Stack s1 = create();
+        int cnt = 0, first, total = 0, sum = 0, pc = 0, prev = 0;
         fscanf(fp, "%d", &N);
-
-        for (int i = 0; i < N; i++)
+        fscanf(fp, "%d", &first);
+        push(a, first);
+        // struct node *st;
+        for (int i = 1; i < N; i++)
         {
-            fscanf(fp, "%d", &n);
-            answer += count(s1, n);
-            push(s1, n);
+            // st = a->top;
+            int d;
+            cnt = 0;
+            fscanf(fp, "%d", &d);
+            if (d < a->top->data)
+            {
+                push(a, d);
+                cnt = 0;
+                total = 0;
+            }
+            else
+            {
+                while (!is_empty(a))
+                {
+                    if (d < a->top->data)
+                        break;
+                    pop(a);
+                    cnt++;
+                    pc++;
+                }
+                if (is_empty(a))
+                {
+                    sum += pc;
+                }
+                else
+                {
+                    // total += cnt;
+                    // sum += total;
+                    prev += cnt;
+                    sum += prev;
+                }
+                // printf("\n");
+                push(a, d);
+            }
+            // printf("%d\n", pc);
+            // list(a);
+            // printf("\n");
+            // printf("%d %d %d\n", cnt, prev, sum);
         }
-
-        printf("%lld\n", answer % 1000000);
-
-        destroy(s1);
+        printf("%d\n", sum % MAX);
+        // printf("%d\n", pc);
+        T--;
+        make_empty(a);
     }
     fclose(fp);
-}
-int count(Stack s, int top_data)
-{
-    Stack s_tmp = create();
-    int cnt = 0;
-    while (!is_empty(s) && peek(s) <= top_data)
-    {
-        push(s_tmp, pop(s));
-        cnt++;
-    }
-    while (!is_empty(s_tmp))
-    {
-        push(s, pop(s_tmp));
-    }
-    destroy(s_tmp);
-    return cnt;
+    return 0;
 }

@@ -1,4 +1,7 @@
-int offset[4][2] = {{-1, 0}, {0, 1}, {1, 0}, {0, -1}};
+// 테스트 데이터를 모두 통과했습니다.
+#include "pos.h"
+
+int offset[8][2] = {{-1, -1}, {-1, 0}, {-1, 1}, {0, 1}, {1, 1}, {1, 0}, {1, -1}, {0, -1}};
 Position move_to(Position pos, int dir)
 {
     Position next;

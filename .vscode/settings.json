@@ -1,12 +1,15 @@
 {
-    "files.associations": {
-        "stdio.h": "c",
-        "string.h": "c",
-        "array": "c",
-        "string": "c",
-        "string_view": "c",
-        "vector": "c",
-        "iterator": "c",
-        "algorithm": "c"
-    }
+  "files.associations": {
+    "stdio.h": "c",
+    "string.h": "c",
+    "array": "c",
+    "string": "c",
+    "string_view": "c",
+    "vector": "c",
+    "iterator": "c",
+    "algorithm": "c",
+    "chrono": "c",
+    "typeinfo": "c",
+    "hi": "c"
+  }
 }

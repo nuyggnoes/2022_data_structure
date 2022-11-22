@@ -67,15 +67,15 @@ Item peek(Stack s)
         terminate("Error in peek: stack is empty.");
     return s->top->data;
 }
-// void list(Stack s)
-// {
-//     struct node *st;
-//     Item i;
-//     st = s->top;
-//     while (st != NULL)
-//     {
-//         i = strdup(st->data);
-//         printf("%s\n", i);
-//         st = st->next;
-//     }
-// }
+void list(Stack s)
+{
+    struct node *st;
+    Item i;
+    st = s->top;
+    while (st != NULL)
+    {
+        i = st->data;
+        printf("%d\n", i);
+        st = st->next;
+    }
+}

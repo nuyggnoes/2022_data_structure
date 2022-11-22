@@ -1,12 +1,9 @@
+// 테스트 데이터를 모두 통과했습니다.
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 #include "stackADT.h"
 #define MAX 100
-// #include <stdio.h>
-// #include <stdlib.h>
-// #include <stdbool.h>
-// #include "stackADT.h"
 
 struct node
 {
@@ -18,6 +15,7 @@ struct stack_type
     struct node *top;
     char *name;
 };
+typedef struct stack_type *Stack;
 static void terminate(const char *message)
 {
     printf("%s\n", message);
@@ -32,19 +30,19 @@ Stack create(char *name)
     s->top = NULL;
     return s;
 }
-void destroy(Stack s)
+bool is_empty(Stack s)
 {
-    make_empty(s);
-    free(s);
+    return s->top == NULL;
 }
 void make_empty(Stack s)
 {
     while (!is_empty(s))
         pop(s);
 }
-bool is_empty(Stack s)
+void destroy(Stack s)
 {
-    return s->top == NULL;
+    make_empty(s);
+    free(s);
 }
 void push(Stack s, Item i)
 {

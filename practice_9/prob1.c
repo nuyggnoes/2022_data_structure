@@ -1,121 +1,22 @@
+// 테스트 데이터를 모두 통과했습니다.
 #include <stdio.h>
-#include <stdlib.h>
 #include <stdbool.h>
-// #include "stack.h"
-// #include "pos.h"
+#include "stack.h"
+#include "pos.h"
 #define PATH 1
 #define VISITED 2
-#define BACKTRACKED 3
-// typedef int Item;
-typedef struct stack_type *Stack;
-typedef struct pos
-{
-    int x, y;
-} Position;
-Position move_to(Position pos, int dir);
-Position pop(Stack s);
-struct node
-{
-    Position data;
-    struct node *next;
-};
-struct stack_type
-{
-    struct node *top;
-};
-static void terminate(const char *message)
-{
-    printf("%s\n", message);
-    exit(EXIT_FAILURE);
-}
-Stack create()
-{
-    Stack s = malloc(sizeof(struct stack_type));
-    if (s == NULL)
-        terminate("Error in create: stack could not be created.");
-    s->top = NULL;
-    return s;
-}
-bool is_empty(Stack s)
-{
-    return s->top == NULL;
-}
-void make_empty(Stack s)
-{
-    while (!is_empty(s))
-        pop(s);
-}
-void destroy(Stack s)
-{
-    make_empty(s);
-    free(s);
-}
-void push(Stack s, Position cur)
-{
-    struct node *new_node = malloc(sizeof(struct node));
-    if (new_node == NULL)
-        terminate("Error in push: stack is full.");
-    new_node->data = cur;
-    new_node->next = s->top;
-    s->top = new_node;
-}
-Position pop(Stack s)
-{
-    struct node *old_top;
-    Position i;
-
-    if (is_empty(s))
-        terminate("Error in pop: stack is empty.");
-    old_top = s->top;
-    i = old_top->data;
-    s->top = old_top->next;
-    free(old_top);
-    return i;
-}
-Position peek(Stack s)
-{
-    if (is_empty(s))
-        terminate("Error in peek: stack is empty.");
-    return s->top->data;
-}
-// void list(Stack s)
-// {
-//     struct node *st;
-//     Position i;
-//     st = s->top;
-//     while (st != NULL)
-//     {
-//         i = st->data;
-//         printf("%d\n", i);
-//         st = st->next;
-//     }
-// }
-// typedef struct pos
-// {
-//     int x, y;
-// } Position;
-// Position move_to(Position pos, int dir);
-int offset[4][2] = {{-1, 0}, {0, 1}, {1, 0}, {0, -1}};
-Position move_to(Position pos, int dir)
+int graph[50][50];
+bool movable(Position pos)
 {
     Position next;
-    next.x = pos.x + offset[dir][0];
-    next.y = pos.y + offset[dir][1];
-    return next;
-}
-bool movable(Position pos, int dir)
-{
-    Position next;
-    next.x = pos.x + offset[dir][0];
-    next.y = pos.y + offset[dir][1];
-    if (next.x < 0 || next.y < 0 || next.x != 1 || next.y != 1)
+    for (int i = 0; i < 8; i++)
     {
-        return false;
+        next = move_to(pos, i);
+        if (graph[next.x][next.y] == PATH)
+            return true;
     }
-    else
-        return true;
+    return false;
 }
-
 int main()
 {
     FILE *fp = fopen("input.txt", "r");
@@ -124,52 +25,61 @@ int main()
     while (T > 0)
     {
         fscanf(fp, "%d", &N);
-        int com[50][50] = {
-            0,
-        };
         for (int i = 0; i < N; i++)
         {
             for (int j = 0; j < N; j++)
             {
-                fscanf(fp, "%d", &com[i][j]);
+                fscanf(fp, "%d", &graph[i][j]);
             }
         }
-        int cnt = 0;
         Stack a = create();
+        int cnt = 0;
         Position cur;
         cur.x = 0;
         cur.y = 0;
+        push(a, cur);
         while (1)
         {
-            if (com[cur.x][cur.y] == 0)
+            bool flag = false;
+            for (int i = 0; i < 8; i++)
             {
-                cur.x = cur.x + 1;
-                continue;
-            }
-            bool forwarded = false;
-            for (int dir = 0; dir < 4; dir++)
-            {
-                if (movable(cur, dir))
+                Position n;
+                n = move_to(cur, i);
+                if (n.x < 0 || n.x >= N || n.y < 0 || n.y >= N)
+                    continue;
+                if (graph[n.x][n.y] == PATH)
                 {
-                    push(a, cur);
+                    graph[n.x][n.y] = VISITED;
+                    push(a, n);
                     cnt++;
-                    cur = move_to(cur, dir);
-                    forwarded = true;
+                    flag = true;
+                    cur.x = n.x;
+                    cur.y = n.y;
                     break;
                 }
             }
-            if (!forwarded)
+            if (!flag)
             {
-                com[cur.x][cur.y] = BACKTRACKED;
-                if (is_empty(a))
+                if (!is_empty(a))
                 {
-                    printf("No path exist\n");
-                    break;
+                    cur = pop(a);
+                    if (is_empty(a) && !movable(cur))
+                    {
+                        printf("%d ", cnt);
+                        cnt = 0;
+                    }
                 }
-                cur = pop(a);
+                else
+                {
+                    cur.x += (cur.y + 1) / N;
+                    cur.y = (cur.y + 1) % N;
+                    if (cur.x == N - 1 && cur.y == N - 1)
+                        break;
+                }
             }
         }
-        printf("%d ", cnt);
+        printf("\n");
+        make_empty(a);
         T--;
     }
     fclose(fp);
